@@ -3,8 +3,13 @@ import re
 from collections import OrderedDict
 
 # ===== 1. JSON 로드 =====
-with open("/Users/jaehwayang/DSL/Projects/Corp/workspace/Data/raw/log.json", "r", encoding="utf-8") as f:
+import os
+input_json_path = "/Users/jaehwayang/DSL/Projects/Corp/workspace/Data/raw/log.json"
+with open(input_json_path, "r", encoding="utf-8") as f:
     data = json.load(f)
+    # 파일명에서 확장자 제외하고 uid 추출
+    filename = os.path.basename(input_json_path)
+    uid, _ = os.path.splitext(filename)
 
 # ===== 2. inferText 필드 추출 =====
 def extract_inferText(obj):
@@ -133,6 +138,7 @@ for i in range(1, len(parts), 2):
         })
 
     clause_entry = {
+        "uid": uid,
         "clause": {
             "name": name,
             "title": title,
